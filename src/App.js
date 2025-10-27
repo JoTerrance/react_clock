@@ -4,6 +4,7 @@ import './App.css';
 
 function App() {
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [offsetMs, setOffsetMs] = useState(0);
 
   const timezones = [
     { name: 'UTC', offset: 0 },
@@ -15,34 +16,32 @@ function App() {
   ];
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-
+    const tick = () => setCurrentTime(new Date(Date.now() + offsetMs));
+    tick();
+    const timer = setInterval(tick, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [offsetMs]);
 
   const adjustTime = (type, amount) => {
-    const newTime = new Date(currentTime);
-    
+    let delta = 0;
     switch(type) {
       case 'hours':
-        newTime.setHours(newTime.getHours() + amount);
+        delta = amount * 60 * 60 * 1000;
         break;
       case 'minutes':
-        newTime.setMinutes(newTime.getMinutes() + amount);
+        delta = amount * 60 * 1000;
         break;
       case 'seconds':
-        newTime.setSeconds(newTime.getSeconds() + amount);
+        delta = amount * 1000;
         break;
       default:
         break;
     }
-    
-    setCurrentTime(newTime);
+    setOffsetMs(prev => prev + delta);
   };
 
   const resetTime = () => {
+    setOffsetMs(0);
     setCurrentTime(new Date());
   };
 
