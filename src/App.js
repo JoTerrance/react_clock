@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Clock from './Clock';
-import './App.css';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -47,46 +48,46 @@ function App() {
   };
 
   return (
-    <div className="app">
-      <header className="app-header">
+    <div className="container">
+      <header className="row my-4">
         <h1>🌍 World Clock</h1>
         <p>Synchronized clocks across different timezones</p>
       </header>
 
-      <div className="controls">
+      <div>
         <h2>Time Controls</h2>
-        <div className="control-group">
-          <div className="control-section">
-            <label>Hours</label>
-            <div className="button-group">
-              <button onClick={() => adjustTime('hours', -1)}>-1h</button>
-              <button onClick={() => adjustTime('hours', 1)}>+1h</button>
+        <div className="">
+          <div className="form-group mb-4">
+            <label className='form-label'>Hours</label>
+            <div className="btn-group">
+              <button className='btn btn-primary' onClick={() => adjustTime('hours', -1)}>-1h</button>
+              <button className='btn btn-primary' onClick={() => adjustTime('hours', 1)}>+1h</button>
+            </div>
+          </div>
+          
+          <div className="form-group mb-4"> 
+            <label className='form-label'>Minutes</label>
+            <div className="btn-group">
+              <button className='btn btn-primary' onClick={() => adjustTime('minutes', -1)}>-1m</button>
+              <button className='btn btn-primary' onClick={() => adjustTime('minutes', 1)}>+1m</button>
+            </div>
+          </div>
+          
+          <div className="form-group mb-4">
+            <label className='form-label'>Seconds</label>
+            <div className="btn-group">
+              <button className='btn btn-primary'onClick={() => adjustTime('seconds', -10)}>-10s</button>
+              <button className='btn btn-primary' onClick={() => adjustTime('seconds', 10)}>+10s</button>
             </div>
           </div>
           
           <div className="control-section">
-            <label>Minutes</label>
-            <div className="button-group">
-              <button onClick={() => adjustTime('minutes', -1)}>-1m</button>
-              <button onClick={() => adjustTime('minutes', 1)}>+1m</button>
-            </div>
-          </div>
-          
-          <div className="control-section">
-            <label>Seconds</label>
-            <div className="button-group">
-              <button onClick={() => adjustTime('seconds', -10)}>-10s</button>
-              <button onClick={() => adjustTime('seconds', 10)}>+10s</button>
-            </div>
-          </div>
-          
-          <div className="control-section">
-            <button className="reset-button" onClick={resetTime}>Reset to Now</button>
+            <button className="btn btn-danger" onClick={resetTime}>Reset to Now</button>
           </div>
         </div>
       </div>
 
-      <div className="clocks-container">
+      <div className="card-group">
         {timezones.map((tz, index) => (
           <Clock key={index} timezone={tz} currentTime={currentTime} />
         ))}
