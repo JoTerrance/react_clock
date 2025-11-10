@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Clock from './Clock';
+import Spinner from './Spinner';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -13,6 +14,7 @@ function App() {
     { name: 'London (GMT)', offset: 0 },
     { name: 'Tokyo (JST)', offset: 9 },
     { name: 'Sydney (AEDT)', offset: 11 },
+    { name: 'Madrid (CET)', offset: 1 },
   ];
 
   useEffect(() => {
@@ -25,8 +27,8 @@ function App() {
 
   const adjustTime = (type, amount) => {
     const newTime = new Date(currentTime);
-    
-    switch(type) {
+
+    switch (type) {
       case 'hours':
         newTime.setHours(newTime.getHours() + amount);
         break;
@@ -39,7 +41,7 @@ function App() {
       default:
         break;
     }
-    
+
     setCurrentTime(newTime);
   };
 
@@ -64,23 +66,23 @@ function App() {
               <button className='btn btn-primary' onClick={() => adjustTime('hours', 1)}>+1h</button>
             </div>
           </div>
-          
-          <div className="form-group mb-4"> 
+
+          <div className="form-group mb-4">
             <label className='form-label'>Minutes</label>
             <div className="btn-group">
               <button className='btn btn-primary' onClick={() => adjustTime('minutes', -1)}>-1m</button>
               <button className='btn btn-primary' onClick={() => adjustTime('minutes', 1)}>+1m</button>
             </div>
           </div>
-          
+
           <div className="form-group mb-4">
             <label className='form-label'>Seconds</label>
             <div className="btn-group">
-              <button className='btn btn-primary'onClick={() => adjustTime('seconds', -10)}>-10s</button>
+              <button className='btn btn-primary' onClick={() => adjustTime('seconds', -10)}>-10s</button>
               <button className='btn btn-primary' onClick={() => adjustTime('seconds', 10)}>+10s</button>
             </div>
           </div>
-          
+
           <div className="control-section">
             <button className="btn btn-danger" onClick={resetTime}>Reset to Now</button>
           </div>
@@ -89,7 +91,7 @@ function App() {
 
       <div className="card-group">
         {timezones.map((tz, index) => (
-          <Clock key={index} timezone={tz} currentTime={currentTime} />
+          tz.offset > 1 ? <Clock key={index} timezone={tz} currentTime={currentTime} /> : <Spinner/>
         ))}
       </div>
     </div>
