@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Clock from './Clock';
 import Spinner from './Spinner';
-
+import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   const [currentTime, setCurrentTime] = useState(new Date());
-
+  const [numClicks, setNumClicks] = useState(0);
+  console.log("Render App");
   const timezones = [
     { name: 'UTC', offset: 0 },
     { name: 'New York (EST)', offset: -5 },
@@ -17,17 +18,20 @@ function App() {
     { name: 'Madrid (CET)', offset: 1 },
   ];
 
-  useEffect(() => {
+  useEffect(
+    () => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
     }, 1000);
+     console.log("Set up timer");
 
     return () => clearInterval(timer);
+
   }, []);
 
   const adjustTime = (type, amount) => {
     const newTime = new Date(currentTime);
-
+    setNumClicks(numClicks + 1);
     switch (type) {
       case 'hours':
         newTime.setHours(newTime.getHours() + amount);
@@ -57,7 +61,7 @@ function App() {
       </header>
 
       <div>
-        <h2>Time Controls</h2>
+        <h2>Time Controls (Clicks: {numClicks})</h2>
         <div className="">
           <div className="form-group mb-4">
             <label className='form-label'>Hours</label>
@@ -85,13 +89,14 @@ function App() {
 
           <div className="control-section">
             <button className="btn btn-danger" onClick={resetTime}>Reset to Now</button>
+            
           </div>
         </div>
       </div>
-
+<Button variant="primary">Primary</Button>
       <div className="card-group">
         {timezones.map((tz, index) => (
-          tz.offset > 1 ? <Clock key={index} timezone={tz} currentTime={currentTime} /> : <Spinner/>
+          tz.offset > 1 ? <Clock key={index} timezone={tz} currentTime={currentTime} /> : <Spinner key={index} />
         ))}
       </div>
     </div>
