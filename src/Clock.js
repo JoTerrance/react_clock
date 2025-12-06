@@ -1,5 +1,5 @@
 import React from 'react';
-import './Clock.css';
+
 
 function Clock({ timezone, currentTime }) {
   const getTimeInTimezone = (date, offset) => {
@@ -17,10 +17,10 @@ function Clock({ timezone, currentTime }) {
   const localTime = getTimeInTimezone(currentTime, timezone.offset);
 
   return (
-    <div className="clock">
-      <div className="clock-label">{timezone.name}</div>
-      <div className="clock-time">{formatTime(localTime)}</div>
-      <div className="clock-offset">UTC{timezone.offset >= 0 ? '+' : ''}{timezone.offset}</div>
+    <div className="card text-white border-info bg-success mb-4">
+      <div className="card-title">{timezone.name}</div>
+      <div className="card-text">{formatTime(localTime)}</div>
+      <div className="card-text">UTC{timezone.offset >= 0 ? '+' : ''}{timezone.offset}</div>
     </div>
   );
 }
